@@ -1,35 +1,41 @@
-var fs = require("fs");
+let events = require("./events")
 
 class Events_model {
-    constructor(){
-        let data = fs.readFileSync( "model/events.json")
-        this.events = JSON.parse(data);
-        //console.log("Events_model - ", this.events)
-    }
 
     list(){
         console.log("Events_model - list")
-        return this.events;
+        return events;
     }
 
     getEventById(id){
         console.log("Events_model - getById")
-        return this.events["1"]
+        if(events[id] != undefined){
+            return events[id];
+        } else {
+            throw "Id not found";
+        }
     }
 
     create(event){
-        console.log("Events_model - create")
-        return true
+        console.log("Events_model - create");
+        event.id = events.length - 1;
+        events.push(event);
+        return true;
     }
 
     update(event){
         console.log("Events_model - update")
-        return true
+        events[events.id] = event;
+        return true;
     }
 
     remove(id){
-        console.log("Events_model - remove")
-        return true
+        console.log("Events_model - remove");
+        if(events[id] != undefined){
+            events.splice(id, 1);
+        } else {
+            throw "Id not found";
+        }
     }
 
 }
